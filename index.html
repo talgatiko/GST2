@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Голосовой робот-демонстратор</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Голосовой робот-демонстратор</h1>
+    
+    <div class="status" id="status">
+      <div class="status-indicator" id="status-indicator"></div>
+      <span id="status-text">Статус: Инициализация...</span>
+    </div>
+    
+    <div>
+      <h2>Настройки</h2>
+      <textarea id="settings-input" spellcheck="false"></textarea>
+      <div class="button-group">
+        <button id="save-settings">Сохранить настройки</button>
+        <button id="reset-settings">Сбросить настройки</button>
+      </div>
+    </div>
+    
+    <div>
+      <h2>Лог работы</h2>
+      <div class="button-group">
+        <button id="toggle-bot">Запустить бота</button>
+        <button id="clear-log">Очистить лог</button>
+      </div>
+      <textarea id="log-output" class="log-textarea" readonly></textarea>
+    </div>
+  </div>
+  
+  <footer>
+    <p>Голосовой робот-демонстратор v1.4</p>
+  </footer>
+  
+  <!-- Добавление глобальных функций логирования для отладки -->
+  <script>
+    function debugLog(message) {
+      console.log(`[DEBUG] ${message}`);
+      const logElement = document.getElementById('log-output');
+      if (logElement) {
+        logElement.value += `[DEBUG] ${message}\n`;
+        logElement.scrollTop = logElement.scrollHeight;
+      }
+    }
+
+    function errorLog(message) {
+      console.error(`[ERROR] ${message}`);
+      const logElement = document.getElementById('log-output');
+      if (logElement) {
+        logElement.value += `[ERROR] ${message}\n`;
+        logElement.scrollTop = logElement.scrollHeight;
+      }
+    }
+  </script>
+  
+  <!-- Загрузка скриптов приложения -->
+  <script src="js/default-settings.js"></script>
+  <script src="js/logger.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/speech-recognizer.js"></script>
+  <script src="js/ai-client.js"></script>
+  <script src="js/speech-synthesizer.js"></script>
+  <script src="js/voice-bot.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
