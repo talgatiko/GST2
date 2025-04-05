@@ -35,7 +35,7 @@
   </div>
   
   <footer>
-    <p>Голосовой робот-демонстратор v1.4</p>
+    <p>Голосовой робот-демонстратор v1.5</p>
   </footer>
   
   <!-- Добавление глобальных функций логирования для отладки -->
@@ -68,5 +68,54 @@
   <script src="js/speech-synthesizer.js"></script>
   <script src="js/voice-bot.js"></script>
   <script src="js/app.js"></script>
+
+  <!-- Модальное окно для ввода API-ключа -->
+  <div id="api-key-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Введите ваш API-ключ</h2>
+      <input type="text" id="api-key-input" placeholder="API-ключ">
+      <button id="save-api-key">Сохранить</button>
+    </div>
+  </div>
+
+  <style>
+    /* Стили для модального окна */
+    .modal {
+      display: none; /* Скрыто по умолчанию */
+      position: fixed; /* Остается на месте */
+      z-index: 1; /* Разместить сверху */
+      left: 0;
+      top: 0;
+      width: 100%; /* Полная ширина */
+      height: 100%; /* Полная высота */
+      overflow: auto; /* Включить прокрутку, если необходимо */
+      background-color: rgba(0,0,0,0.4); /* Черный с прозрачностью */
+    }
+
+    /* Содержимое модального окна */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% сверху и по центру */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Может быть изменено */
+    }
+
+    /* Кнопка закрытия */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
 </body>
 </html>

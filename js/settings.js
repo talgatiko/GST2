@@ -73,7 +73,8 @@ class Settings {
     if (this.settingsElement) {
       try {
         const settings = JSON.parse(this.settingsElement.value);
-        Object.assign(this, settings);
+        const { apiKey, ...otherSettings } = settings;
+        Object.assign(this, otherSettings);
         debugLog("Настройки успешно обновлены из UI");
         return true;
       } catch (error) {
