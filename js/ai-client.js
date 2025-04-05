@@ -27,6 +27,12 @@ class AIClient {
       return false;
     }
     
+    if (!this.apiUrl.startsWith('http://') && !this.apiUrl.startsWith('https://')) {
+      debugLog("API URL не является валидным (отсутствует http/https), потоковая передача отключена");
+      this.supportStreaming = false;
+      return false;
+    }
+    
     try {
       // Проверка на поддержку fetch API с потоками
       if (!window.ReadableStream || !window.Response || !Response.prototype.body) {
@@ -179,7 +185,9 @@ class AIClient {
                 onChunk(contentChunk, accumulatedResponse);
               }
             } catch (e) {
-              // Игнорируем ошибки парсинга неполных JSON
+              errorLog(`Ошибка парсинга JSON: ${e.message}`);
+              reader.cancel(`Ошибка парсинга JSON: ${e.message}`);
+              return;
             }
           }
         }
@@ -195,5 +203,6 @@ class AIClient {
   
   handleError(error) {
     errorLog(`Ошибка при обращении к API: ${error.message}`);
+    throw new Error(`Ошибка при обращении к API: ${error.message}`);
   }
 }

@@ -35,3 +35,11 @@ class Logger {
     return this.logHistory.join('\n');
   }
 }
+
+function debugLog(message) {
+  console.log(`[DEBUG] ${message}`);
+}
+
+function errorLog(message) {
+  console.error(`[ERROR] ${message}`);
+}

@@ -44,8 +44,7 @@ class VoiceBot {
       
       this.logger.log('Компоненты системы успешно созданы', 'info');
     } catch (error) {
-      errorLog(`Ошибка при создании компонентов бота: ${error.message}`);
-      this.logger.log(`Ошибка инициализации: ${error.message}`, 'error');
+      this.displayError(`Ошибка при создании компонентов бота: ${error.message}`);
     }
     
     // Буфер для накопления текста при потоковой обработке
@@ -161,7 +160,7 @@ class VoiceBot {
         }
       } catch (error) {
         this.microphoneInitialized = false;
-        this.logger.log(`Ошибка инициализации микрофона: ${error.message}`, 'error');
+        this.displayError(`Ошибка инициализации микрофона: ${error.message}`);
       }
       
       // Настройка синтезатора речи
@@ -177,10 +176,14 @@ class VoiceBot {
       this.updateStatus('Готов к запуску');
       debugLog("Инициализация голосового бота завершена успешно");
     } catch (error) {
-      errorLog(`Ошибка при инициализации бота: ${error.message}`);
-      this.logger.log(`Ошибка инициализации: ${error.message}`, 'error');
-      this.updateStatus('Ошибка инициализации');
+      this.displayError(`Ошибка при инициализации бота: ${error.message}`);
     }
+  }
+  
+  // Отображение ошибки в UI
+  displayError(message) {
+    this.logger.log(`Ошибка: ${message}`, 'error');
+    this.updateStatus(`Ошибка - ${message}`);
   }
   
   // Улучшенная обработка ошибок распознавания
@@ -190,7 +193,7 @@ class VoiceBot {
       // Распознаватель перезапустится автоматически
       this.logger.log('Не обнаружена речь, продолжаю слушать...', 'info');
     } else {
-      this.logger.log(`Ошибка распознавания: ${error}`, 'error');
+      this.displayError(`Ошибка распознавания: ${error}`);
     }
   }
   
@@ -237,13 +240,13 @@ class VoiceBot {
         this.microphoneInitialized = true;
         this.logger.log('Микрофон успешно инициализирован', 'info');
       } catch (error) {
-        this.logger.log(`Невозможно запустить бота: ${error.message}`, 'error');
+        this.displayError(`Невозможно запустить бота: ${error.message}`);
         return;
       }
     }
     
     if (!this.recognizer || !this.synthesizer) {
-      this.logger.log('Невозможно запустить бота: API речи не поддерживаются', 'error');
+      this.displayError('Невозможно запустить бота: API речи не поддерживаются');
       return;
     }
     
