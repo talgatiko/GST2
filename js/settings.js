@@ -133,52 +133,12 @@ class Settings {
   updateUI() {
     debugLog("Обновление UI настроек...");
     if (this.settingsElement) {
-      const settings = {
-        apiUrl: this.apiUrl,
-      apiKey: this.apiKey,
-      systemPrompt: this.systemPrompt,
-      greetingText: this.greetingText,
-      model: this.model,
-      temperature: this.temperature, // Добавлено
-      max_tokens: this.max_tokens,   // Добавлено
-      language: this.language,
-      useStreaming: this.useStreaming,
-      waitingPhrases: this.waitingPhrases,
-      waitingInterval: this.waitingInterval,
-      conversationStages: this.conversationStages
-    };
+      const settings = this.getCurrentSettings(); // Use getCurrentSettings to get all properties
 
     try {
-      // Формируем JSON с комментариями
-      const settingsWithComments = {
-        "// URL API для запросов к языковой модели": "",
-        "apiUrl": settings.apiUrl,
-        "// Ключ API для аутентификации запросов": "",
-        "apiKey": settings.apiKey,
-        "// Идентификатор используемой языковой модели (например, 'gpt-3.5-turbo', 'deepseek/deepseek-chat')": "",
-        "model": settings.model,
-        "// Температура ответа (от 0 до 1). Влияет на случайность/креативность ответа. Выше значение - более случайный ответ.": "",
-        "temperature": settings.temperature,
-        "// Максимальное количество токенов (слов/частей слов) в ответе модели.": "",
-        "max_tokens": settings.max_tokens,
-        "// Системный промпт (инструкция), который задает роль и поведение для ИИ.": "",
-        "systemPrompt": settings.systemPrompt,
-        "// Приветственное сообщение, которое бот произносит при запуске.": "",
-        "greetingText": settings.greetingText,
-        "// Язык для распознавания и синтеза речи (например, 'ru-RU', 'en-US').": "",
-        "language": settings.language,
-        "// Использовать ли потоковую передачу ответа от API (если поддерживается). Ответ будет воспроизводиться по мере поступления.": "",
-        "useStreaming": settings.useStreaming,
-        "// Фразы, которые бот периодически произносит во время ожидания команды пользователя.": "",
-        "waitingPhrases": settings.waitingPhrases,
-        "// Интервал (в миллисекундах), через который бот произносит ожидающую фразу, если нет активности.": "",
-        "waitingInterval": settings.waitingInterval,
-        "// Определение этапов разговора, ключевых слов для перехода и соответствующих промптов.": "",
-        "conversationStages": settings.conversationStages
-      };
-
-      this.settingsElement.value = JSON.stringify(settingsWithComments, null, 2);
-      debugLog("UI настроек успешно обновлен с комментариями");
+      // Просто отображаем текущие настройки как JSON
+      this.settingsElement.value = JSON.stringify(settings, null, 2);
+      debugLog("UI настроек успешно обновлен");
       } catch (error) {
         errorLog(`Ошибка при обновлении UI настроек: ${error.message}`);
       }
