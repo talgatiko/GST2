@@ -106,22 +106,18 @@ class Settings {
         // Этот regex удаляет комментарии, сохраняя при этом строки JSON
         let cleanedJsonString = jsonStringWithComments.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '');
 
-        // Экранируем некорректные управляющие символы (переносы строк, табуляции) ВНУТРИ строк JSON.
-        // Это упрощенный подход: заменяем все \n и \t на \\n и \\t.
-        // ВАЖНО: Это может повлиять на строки, где \n или \t были намеренно не экранированы,
-        // но для большинства случаев ввода из textarea это должно решить проблему "Bad control character".
-        cleanedJsonString = cleanedJsonString.replace(/(?<!\\)\n/g, '\\n').replace(/(?<!\\)\t/g, '\\t');
+        // Удаляем возможный BOM (Byte Order Mark) и обрезаем пробельные символы
+        const trimmedString = cleanedJsonString.replace(/^\uFEFF/, '').trim();
 
-        // Добавляем проверку: строка не должна быть пустой и должна начинаться с {
-        const trimmedString = cleanedJsonString.trim();
+        // Проверяем, что строка не пустая и является JSON-объектом
         if (!trimmedString || !trimmedString.startsWith('{') || !trimmedString.endsWith('}')) {
             errorLog("Ошибка при парсинге настроек из UI: Введенные данные не являются валидным JSON объектом или пусты.");
             alert("Ошибка: Введенные настройки не являются валидным JSON объектом. Пожалуйста, проверьте формат.");
             return false; // Прерываем выполнение, если строка невалидна
         }
 
-        // Парсим очищенный и экранированный JSON
-        const settings = JSON.parse(trimmedString); // Используем обрезанную строку
+        // Парсим очищенную строку JSON
+        const settings = JSON.parse(trimmedString);
 
         // Обновляем текущие настройки объекта
         Object.assign(this, settings);
