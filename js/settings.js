@@ -115,9 +115,12 @@ class Settings {
             alert("Ошибка: Введенные настройки не являются валидным JSON объектом. Пожалуйста, проверьте формат.");
             return false; // Прерываем выполнение, если строка невалидна
         }
+        
+        // Дополнительно удаляем управляющие символы (перевод строки, возврат каретки, табуляция) перед парсингом
+        const sanitizedString = trimmedString.replace(/[\n\r\t]/g, '');
 
-        // Парсим очищенную строку JSON
-        const settings = JSON.parse(trimmedString);
+        // Парсим очищенную и санитизированную строку JSON
+        const settings = JSON.parse(sanitizedString);
 
         // Обновляем текущие настройки объекта
         Object.assign(this, settings);
