@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     // Отображаем версию в консоли
-    console.log("Голосовой робот-демонстратор v2.0 запущен");
+    console.log("Голосовой робот-демонстратор v2.1 запущен");
 
     // Создаем экземпляр голосового бота
     debugLog("Создание экземпляра VoiceBot");
@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const saveApiKeyButton = document.getElementById('save-api-key');
   const closeButton = document.querySelector('.close');
   const settings = new Settings();
+  settings.load(); // Load settings from localStorage first
 
   // Функция для показа модального окна
   function showApiKeyModal() {

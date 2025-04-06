@@ -1,7 +1,7 @@
 body {
   font-family: Arial, sans-serif;
   padding: 20px;
-  max-width: 800px;
+  /* max-width: 800px; Remove max-width for full-width layout */
   margin: 0 auto;
   background-color: #f8f9fa;
 }
@@ -28,7 +28,7 @@ h2 {
 }
 
 textarea {
-  width: calc(100vw - 40px); /* Full width minus body padding */
+  width: 100%; /* Use 100% of container width */
   height: 600px; /* Approximately 300 lines */
   min-height: auto;
   padding: 12px;
@@ -120,4 +120,61 @@ footer {
   text-align: center;
   font-size: 14px;
   color: #7f8c8d;
+}
+
+/* Стили для модального окна */
+.modal {
+  display: none; /* Скрыто по умолчанию */
+  position: fixed; /* Остается на месте */
+  z-index: 1; /* Разместить сверху */
+  left: 0;
+  top: 0;
+  width: 100%; /* Полная ширина */
+  height: 100%; /* Полная высота */
+  overflow: auto; /* Включить прокрутку, если необходимо */
+  background-color: rgba(0,0,0,0.4); /* Черный с прозрачностью */
+}
+
+/* Содержимое модального окна */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% сверху и по центру */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Может быть изменено */
+  max-width: 500px; /* Add max-width for better appearance */
+  border-radius: 5px;
+}
+
+/* Кнопка закрытия */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Input field in modal */
+#api-key-input {
+  width: calc(100% - 24px); /* Adjust width considering padding */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Save button in modal */
+#save-api-key {
+  background-color: #27ae60; /* Green */
+}
+
+#save-api-key:hover {
+  background-color: #229954;
 }
