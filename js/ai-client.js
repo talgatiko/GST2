@@ -69,7 +69,8 @@ class AIClient {
         { role: 'system', content: systemPrompt },
         { role: 'user', content: text }
       ],
-      temperature: 0.7
+      temperature: 0.7,
+      max_tokens: 2048 // Add max_tokens parameter
     };
     
     if (logger) {
@@ -120,7 +121,8 @@ class AIClient {
         { role: 'user', content: text }
       ],
       temperature: 0.7,
-      stream: true
+      stream: true,
+      max_tokens: 2048 // Add max_tokens parameter
     };
     
     if (logger) {
