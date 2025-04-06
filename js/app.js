@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     // Отображаем версию в консоли
-    console.log("Голосовой робот-демонстратор v1.4 запущен");
+    console.log("Голосовой робот-демонстратор v2.0 запущен");
 
     // Создаем экземпляр голосового бота
     debugLog("Создание экземпляра VoiceBot");
@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
     settings.apiKey = apiKey;
     settings.save();
     hideApiKeyModal();
+    location.reload(); // Refresh the page to apply the new settings
   });
 
   // Обработчик события для кнопки "Закрыть"

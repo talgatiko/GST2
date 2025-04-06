@@ -28,14 +28,15 @@ h2 {
 }
 
 textarea {
-  width: 100%;
-  min-height: 200px;
+  width: calc(100vw - 40px); /* Full width minus body padding */
+  height: 600px; /* Approximately 300 lines */
+  min-height: auto;
   padding: 12px;
   box-sizing: border-box;
   font-family: monospace;
   border: 1px solid #ddd;
   border-radius: 5px;
-  resize: vertical;
+  resize: none; /* Prevent vertical resizing */
 }
 
 .log-textarea {
@@ -62,6 +63,11 @@ button {
 
 button:hover {
   background-color: #2980b9;
+}
+
+button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
 }
 
 #toggle-bot {
