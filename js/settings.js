@@ -109,16 +109,19 @@ class Settings {
         // Удаляем возможный BOM (Byte Order Mark) и обрезаем пробельные символы
         const trimmedString = cleanedJsonString.replace(/^\uFEFF/, '').trim();
 
-        // Проверяем, что строка не пустая и является JSON-объектом
-        if (!trimmedString || !trimmedString.startsWith('{') || !trimmedString.endsWith('}')) {
-            errorLog("Ошибка при парсинге настроек из UI: Введенные данные не являются валидным JSON объектом или пусты.");
+        // Удаляем управляющие символы (U+0000-U+0008, U+000B-U+001F), которые могут сломать JSON.parse
+        const controlCharsRemovedString = trimmedString.replace(/[\u0000-\u0008\u000B-\u001F]/g, '');
+
+        // Проверяем, что строка не пустая и является JSON-объектом (после очистки)
+        if (!controlCharsRemovedString || !controlCharsRemovedString.startsWith('{') || !controlCharsRemovedString.endsWith('}')) {
+            errorLog("Ошибка при парсинге настроек из UI: Введенные данные не являются валидным JSON объектом или пусты (после очистки).");
             alert("Ошибка: Введенные настройки не являются валидным JSON объектом. Пожалуйста, проверьте формат.");
             return false; // Прерываем выполнение, если строка невалидна
         }
-        
-        // Парсим очищенную от комментариев строку JSON
-        // НЕ удаляем переносы строк (\n), так как они должны быть экранированы (\\n) внутри строк JSON
-        const settings = JSON.parse(trimmedString);
+
+        // Парсим очищенную от комментариев и управляющих символов строку JSON
+        // Переносы строк (\n) внутри строковых значений должны быть экранированы (\\n) в исходном тексте UI
+        const settings = JSON.parse(controlCharsRemovedString);
 
         // Обновляем текущие настройки объекта
         Object.assign(this, settings);
