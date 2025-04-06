@@ -126,6 +126,7 @@ classDiagram
 
 ```
 
+
 ## Interaction Sequence Diagram
 
 This diagram shows the typical sequence of events when a user interacts with the Voice Bot.
@@ -167,6 +168,7 @@ sequenceDiagram
     deactivate SpeechSynthesizer
     VoiceBot->>App (UI): Updates UI (e.g., display text)
     VoiceBot->>SpeechRecognizer: start() # Listen for next input
+```
 
 
 
