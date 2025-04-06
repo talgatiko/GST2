@@ -102,12 +102,12 @@ class Settings {
         // Получаем текст настроек из UI
         const jsonStringWithComments = this.settingsElement.value;
         
-        // Удаляем однострочные (//) и многострочные (/* ... */) комментарии перед парсингом
-        // Этот regex удаляет комментарии, сохраняя при этом строки JSON
-        let cleanedJsonString = jsonStringWithComments.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '');
+        // НЕ удаляем комментарии, так как это может повредить строки, содержащие "//" (например, URL)
+        // Пользователь должен вводить валидный JSON без комментариев.
+        const jsonString = jsonStringWithComments; // Используем исходную строку
 
         // Удаляем возможный BOM (Byte Order Mark) и обрезаем пробельные символы
-        const trimmedString = cleanedJsonString.replace(/^\uFEFF/, '').trim();
+        const trimmedString = jsonString.replace(/^\uFEFF/, '').trim();
 
         // Удаляем управляющие символы (U+0000-U+0008, U+000B-U+001F), которые могут сломать JSON.parse
         const controlCharsRemovedString = trimmedString.replace(/[\u0000-\u0008\u000B-\u001F]/g, '');
