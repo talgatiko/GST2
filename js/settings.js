@@ -116,11 +116,9 @@ class Settings {
             return false; // Прерываем выполнение, если строка невалидна
         }
         
-        // Дополнительно удаляем управляющие символы (перевод строки, возврат каретки, табуляция) перед парсингом
-        const sanitizedString = trimmedString.replace(/[\n\r\t]/g, '');
-
-        // Парсим очищенную и санитизированную строку JSON
-        const settings = JSON.parse(sanitizedString);
+        // Парсим очищенную от комментариев строку JSON
+        // НЕ удаляем переносы строк (\n), так как они должны быть экранированы (\\n) внутри строк JSON
+        const settings = JSON.parse(trimmedString);
 
         // Обновляем текущие настройки объекта
         Object.assign(this, settings);
