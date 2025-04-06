@@ -67,10 +67,11 @@ class AIClient {
   // Обычный запрос
   async sendRequest(text, systemPrompt, logger) {
     debugLog("Отправка стандартного запроса к API...");
+    const effectiveSystemPrompt = systemPrompt || ""; // Ensure systemPrompt is at least an empty string
     const requestBody = {
       model: this.model,
       messages: [
-        { role: 'system', content: systemPrompt },
+        { role: 'system', content: effectiveSystemPrompt },
         { role: 'user', content: text }
       ],
       temperature: this.temperature, // Используем значение из настроек
@@ -118,10 +119,11 @@ class AIClient {
   // Потоковый запрос (для streaming API)
   async sendStreamingRequest(text, systemPrompt, onChunk, logger) {
     debugLog("Отправка потокового запроса к API...");
+    const effectiveSystemPrompt = systemPrompt || ""; // Ensure systemPrompt is at least an empty string
     const requestBody = {
       model: this.model,
       messages: [
-        { role: 'system', content: systemPrompt },
+        { role: 'system', content: effectiveSystemPrompt },
         { role: 'user', content: text }
       ],
       temperature: this.temperature, // Используем значение из настроек
