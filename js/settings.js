@@ -102,10 +102,10 @@ class Settings {
         // Получаем текст настроек из UI
         const jsonStringWithComments = this.settingsElement.value;
         
-        // Удаляем однострочные комментарии (// ...) перед парсингом
-        // Этот regex удаляет строки, начинающиеся с // (с возможными пробелами перед ними)
-        const cleanedJsonString = jsonStringWithComments.replace(/^\s*\/\/.*$/gm, ''); 
-        
+        // Удаляем однострочные (//) и многострочные (/* ... */) комментарии перед парсингом
+        // Этот regex удаляет комментарии, сохраняя при этом строки JSON
+        const cleanedJsonString = jsonStringWithComments.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '');
+
         // Парсим очищенный JSON
         const settings = JSON.parse(cleanedJsonString);
         
