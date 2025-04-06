@@ -28,7 +28,14 @@ class VoiceBot {
         this.synthesizer = null;
       }
       
-      this.aiClient = new AIClient();
+      // Передаем параметры при создании AIClient
+      this.aiClient = new AIClient(
+        this.settings.apiUrl,
+        this.settings.apiKey,
+        this.settings.model,
+        this.settings.temperature,
+        this.settings.max_tokens
+      );
       this.logger.log('AI клиент инициализирован', 'info');
       
       this.isActive = false;
@@ -124,10 +131,13 @@ class VoiceBot {
       
       // Настраиваем API клиент
       debugLog("Настройка API клиента...");
+      // Передаем параметры при настройке AIClient
       this.aiClient.setApiParams(
-        this.settings.apiUrl, 
-        this.settings.apiKey, 
-        this.settings.model
+        this.settings.apiUrl,
+        this.settings.apiKey,
+        this.settings.model,
+        this.settings.temperature,
+        this.settings.max_tokens
       );
       this.logger.log('API клиент настроен', 'info');
       
@@ -498,10 +508,13 @@ class VoiceBot {
     if (success) {
       this.settings.save();
       
+      // Передаем параметры при обновлении настроек
       this.aiClient.setApiParams(
-        this.settings.apiUrl, 
-        this.settings.apiKey, 
-        this.settings.model
+        this.settings.apiUrl,
+        this.settings.apiKey,
+        this.settings.model,
+        this.settings.temperature,
+        this.settings.max_tokens
       );
       
       // Обновляем проверку поддержки потоковой обработки

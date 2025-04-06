@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     // Отображаем версию в консоли
-    console.log("Голосовой робот-демонстратор v2.1 запущен");
+    console.log("Голосовой робот-демонстратор v2.2 запущен");
 
     // Создаем экземпляр голосового бота
     debugLog("Создание экземпляра VoiceBot");

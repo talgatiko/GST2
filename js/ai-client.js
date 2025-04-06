@@ -2,22 +2,26 @@
  * Класс для взаимодействия с API ИИ
  */
 class AIClient {
-  constructor(apiUrl = '', apiKey = '', model = 'gpt-3.5-turbo') {
+  constructor(apiUrl = '', apiKey = '', model = 'gpt-3.5-turbo', temperature = 0.7, max_tokens = 2048) {
     debugLog("Инициализация AI клиента...");
     this.apiUrl = apiUrl;
     this.apiKey = apiKey;
     this.model = model;
+    this.temperature = temperature; // Добавлено
+    this.max_tokens = max_tokens;   // Добавлено
     this.supportStreaming = false;
     debugLog("AI клиент создан успешно");
   }
-  
-  setApiParams(url, key, model) {
-    debugLog(`Настройка параметров API: URL=${url}, модель=${model}`);
+
+  setApiParams(url, key, model, temperature, max_tokens) {
+    debugLog(`Настройка параметров API: URL=${url}, модель=${model}, temp=${temperature}, max_tokens=${max_tokens}`);
     this.apiUrl = url;
     this.apiKey = key;
     this.model = model || 'gpt-3.5-turbo';
+    this.temperature = temperature !== undefined ? temperature : 0.7; // Добавлено
+    this.max_tokens = max_tokens !== undefined ? max_tokens : 2048;   // Добавлено
   }
-  
+
   // Определить поддержку потоковой передачи
   async detectStreamingSupport() {
     debugLog("Проверка поддержки потоковой передачи...");
@@ -69,8 +73,8 @@ class AIClient {
         { role: 'system', content: systemPrompt },
         { role: 'user', content: text }
       ],
-      temperature: 0.7,
-      max_tokens: 2048 // Add max_tokens parameter
+      temperature: this.temperature, // Используем значение из настроек
+      max_tokens: this.max_tokens    // Используем значение из настроек
     };
     
     if (logger) {
@@ -120,9 +124,9 @@ class AIClient {
         { role: 'system', content: systemPrompt },
         { role: 'user', content: text }
       ],
-      temperature: 0.7,
+      temperature: this.temperature, // Используем значение из настроек
       stream: true,
-      max_tokens: 2048 // Add max_tokens parameter
+      max_tokens: this.max_tokens    // Используем значение из настроек
     };
     
     if (logger) {

@@ -6,6 +6,8 @@ const DEFAULT_SETTINGS = {
   apiUrl: 'https://api.openai.com/v1/chat/completions',
   apiKey: '',
   model: 'gpt-3.5-turbo',
+  temperature: 0.7, // Температура ответа
+  max_tokens: 2048, // Макс. длина ответа
   
   // Настройки бота
   systemPrompt: 'Ты - голосовой помощник. Отвечай кратко и по делу.',

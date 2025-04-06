@@ -26,6 +26,8 @@ class Settings {
       systemPrompt: this.systemPrompt,
       greetingText: this.greetingText,
       model: this.model,
+      temperature: this.temperature, // Добавлено
+      max_tokens: this.max_tokens,   // Добавлено
       language: this.language,
       useStreaming: this.useStreaming,
       waitingPhrases: this.waitingPhrases,
@@ -50,6 +52,8 @@ class Settings {
     this.systemPrompt = DEFAULT_SETTINGS.systemPrompt;
     this.greetingText = DEFAULT_SETTINGS.greetingText;
     this.model = DEFAULT_SETTINGS.model;
+    this.temperature = DEFAULT_SETTINGS.temperature; // Добавлено
+    this.max_tokens = DEFAULT_SETTINGS.max_tokens;   // Добавлено
     this.language = DEFAULT_SETTINGS.language;
     this.useStreaming = DEFAULT_SETTINGS.useStreaming;
     this.waitingPhrases = DEFAULT_SETTINGS.waitingPhrases;
@@ -59,18 +63,7 @@ class Settings {
 
   save() {
     debugLog("Сохранение настроек в localStorage...");
-    const settings = {
-      apiUrl: this.apiUrl,
-      apiKey: this.apiKey,
-      systemPrompt: this.systemPrompt,
-      greetingText: this.greetingText,
-      model: this.model,
-      language: this.language,
-      useStreaming: this.useStreaming,
-      waitingPhrases: this.waitingPhrases,
-      waitingInterval: this.waitingInterval,
-      conversationStages: this.conversationStages
-    };
+    const settings = this.getCurrentSettings(); // Используем getCurrentSettings
 
     try {
       localStorage.setItem('voiceBotSettings', JSON.stringify(settings));
@@ -124,20 +117,50 @@ class Settings {
     if (this.settingsElement) {
       const settings = {
         apiUrl: this.apiUrl,
-        apiKey: this.apiKey,
-        systemPrompt: this.systemPrompt,
-        greetingText: this.greetingText,
-        model: this.model,
-        language: this.language,
-        useStreaming: this.useStreaming,
-        waitingPhrases: this.waitingPhrases,
-        waitingInterval: this.waitingInterval,
-        conversationStages: this.conversationStages
+      apiKey: this.apiKey,
+      systemPrompt: this.systemPrompt,
+      greetingText: this.greetingText,
+      model: this.model,
+      temperature: this.temperature, // Добавлено
+      max_tokens: this.max_tokens,   // Добавлено
+      language: this.language,
+      useStreaming: this.useStreaming,
+      waitingPhrases: this.waitingPhrases,
+      waitingInterval: this.waitingInterval,
+      conversationStages: this.conversationStages
+    };
+
+    try {
+      // Формируем JSON с комментариями
+      const settingsWithComments = {
+        "// URL API для запросов к языковой модели": "",
+        "apiUrl": settings.apiUrl,
+        "// Ключ API для аутентификации запросов": "",
+        "apiKey": settings.apiKey,
+        "// Идентификатор используемой языковой модели (например, 'gpt-3.5-turbo', 'deepseek/deepseek-chat')": "",
+        "model": settings.model,
+        "// Температура ответа (от 0 до 1). Влияет на случайность/креативность ответа. Выше значение - более случайный ответ.": "",
+        "temperature": settings.temperature,
+        "// Максимальное количество токенов (слов/частей слов) в ответе модели.": "",
+        "max_tokens": settings.max_tokens,
+        "// Системный промпт (инструкция), который задает роль и поведение для ИИ.": "",
+        "systemPrompt": settings.systemPrompt,
+        "// Приветственное сообщение, которое бот произносит при запуске.": "",
+        "greetingText": settings.greetingText,
+        "// Язык для распознавания и синтеза речи (например, 'ru-RU', 'en-US').": "",
+        "language": settings.language,
+        "// Использовать ли потоковую передачу ответа от API (если поддерживается). Ответ будет воспроизводиться по мере поступления.": "",
+        "useStreaming": settings.useStreaming,
+        "// Фразы, которые бот периодически произносит во время ожидания команды пользователя.": "",
+        "waitingPhrases": settings.waitingPhrases,
+        "// Интервал (в миллисекундах), через который бот произносит ожидающую фразу, если нет активности.": "",
+        "waitingInterval": settings.waitingInterval,
+        "// Определение этапов разговора, ключевых слов для перехода и соответствующих промптов.": "",
+        "conversationStages": settings.conversationStages
       };
 
-      try {
-        this.settingsElement.value = JSON.stringify(settings, null, 2);
-        debugLog("UI настроек успешно обновлен");
+      this.settingsElement.value = JSON.stringify(settingsWithComments, null, 2);
+      debugLog("UI настроек успешно обновлен с комментариями");
       } catch (error) {
         errorLog(`Ошибка при обновлении UI настроек: ${error.message}`);
       }
