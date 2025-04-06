@@ -99,13 +99,24 @@ class Settings {
     debugLog("Обновление настроек из пользовательского интерфейса...");
     if (this.settingsElement) {
       try {
-        const settings = JSON.parse(this.settingsElement.value);
+        // Получаем текст настроек из UI
+        const jsonStringWithComments = this.settingsElement.value;
+        
+        // Удаляем однострочные комментарии (// ...) перед парсингом
+        // Этот regex удаляет строки, начинающиеся с // (с возможными пробелами перед ними)
+        const cleanedJsonString = jsonStringWithComments.replace(/^\s*\/\/.*$/gm, ''); 
+        
+        // Парсим очищенный JSON
+        const settings = JSON.parse(cleanedJsonString);
+        
+        // Обновляем текущие настройки объекта
         Object.assign(this, settings);
-        debugLog("Настройки успешно обновлены из UI");
-        this.updateSaveButtonState(); // Update button state after updating from UI
+        debugLog("Настройки успешно обновлены из UI (после удаления комментариев)");
+        this.updateSaveButtonState(); // Обновляем состояние кнопки Сохранить
         return true;
       } catch (error) {
-        errorLog(`Ошибка при парсинге настроек: ${error.message}`);
+        errorLog(`Ошибка при парсинге настроек из UI: ${error.message}. Убедитесь, что формат JSON корректен (даже без комментариев).`);
+        // Можно добавить уведомление для пользователя здесь, если нужно
         return false;
       }
     }
